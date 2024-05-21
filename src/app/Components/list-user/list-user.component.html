@@ -1,0 +1,48 @@
+<div class="container-fluid">
+    <div class="row pt-5">
+        <div class="col-2"></div>
+        <div class="col-8 ">
+            <table class="table table-bordered table-striped">
+                <thead class="table-header">
+                    <tr>
+                        <td (click)="orderColumn('name')" class="cursor-pointer text-center w-25">Name <i class="bi bi-arrow-down-up"></i></td>
+                        <td (click)="orderColumn('email')" class="cursor-pointer text-center w-40">Email <i class="bi bi-arrow-down-up"></i></td>
+                        <td (click)="orderColumn('mobile')" class="cursor-pointer text-center w-25">Mobile <i class="bi bi-arrow-down-up"></i></td>
+                        <td colspan="2" class="text-center w-10">Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let user of allusers | paginate: { itemsPerPage: pageSize, currentPage: currentPage }; index as i">
+                        <tr>
+                            <td class="text-center">{{user.name}}</td>
+                            <td class="text-center">{{user.email}}</td>
+                            <td class="text-center">{{user.mobile}}</td>
+                            <td class="text-center"><i class="bi bi-pencil-square" [routerLink]="'/edit/'+user.id" matTooltip="Edit"></i></td>
+                            <td class="text-center"><i class="bi bi-trash" matTooltip="Delete" (click)="openModalforDelete(user.id)" ></i></td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-end">
+                <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade"  id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Alert</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Are you Sure you want to delete {{usertoDelete?.name || ''}} from list.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <button type="button" class="btn btn-primary" (click)="deleteUser()">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
